@@ -1,4 +1,5 @@
 using System;
+using System.Dynamic;
 
 namespace RollbarDotNet
 {
@@ -32,6 +33,6 @@ namespace RollbarDotNet
 
         public Action<Payload> Transform { get; set; }
 
-        public Server? Server { get; set; }
+        public Server Server { get; set; }
     }
 }
