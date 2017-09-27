@@ -7,6 +7,7 @@ namespace RollbarDotNet
     {
         private static RollbarConfig _config;
         private static Func<Person> _personFunc;
+        private static Func<Request> _requestFunc;
 
         public static void Init(RollbarConfig config = null)
         {
@@ -21,6 +22,11 @@ namespace RollbarDotNet
         public static void PersonData(Func<Person> personFunc)
         {
             _personFunc = personFunc;
+        }
+
+        public static void RequestData(Func<Request> requestFunc)
+        {
+            _requestFunc = requestFunc;
         }
 
         public static Guid? Report(System.Exception e, ErrorLevel? level = ErrorLevel.Error, IDictionary<string, object> custom = null)
@@ -52,6 +58,7 @@ namespace RollbarDotNet
             var payload = new Payload(_config.AccessToken, data);
             payload.Data.GuidUuid = guid;
             payload.Data.Person = _personFunc?.Invoke();
+            payload.Data.Request = _requestFunc?.Invoke();
 
             if (_config.Server != null)
             {
